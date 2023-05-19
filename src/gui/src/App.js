@@ -1,6 +1,5 @@
 import { Routes, Route } from 'react-router-dom';
 import SearchComp from './SearchComp';
-import MyNavigation from './MyNavigation';
 import LoginForm from './LoginForm';
 import RegisterForm from './RegisterForm';
 import TripList from './TripList';
@@ -9,11 +8,13 @@ import PrivateRoute from './PrivateRoute';
 import Cart from './Cart';
 import Buy from './Buy';
 import LoginRoute from './LoginRoute';
+import Navbar from './components/Navbar';
+
 
 const App = () => {
   return (
     <div>
-      <MyNavigation />
+      <Navbar/>
       <Routes>
         <Route path='/' />
         <Route path="/search" element={<SearchComp />} />

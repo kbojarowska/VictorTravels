@@ -1,4 +1,4 @@
-.date-range-picker {
+/* .date-range-picker {
     display: flex;
     flex-direction: column;
     margin-bottom: 1rem;
@@ -9,11 +9,10 @@
     margin-bottom: 0.5rem;
   }
   
-  .date-range-picker__input {
+  /* .date-range-picker__input {
     padding: 0.5rem;
     border: 1px solid #ccc;
     border-radius: 4px;
     font-size: 1rem;
     line-height: 1.5;
-  }
-  
+  } */

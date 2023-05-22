@@ -5,26 +5,24 @@ import Cookies from 'js-cookie';
 export const UserContext = createContext();
 
 const UserProvider = ({ children }) => {
-
   // Login function to update the username state
   const login = (token) => {
-    const decodedToken = jwtDecode(token.replace("Bearer ", ""));
+    const decodedToken = jwtDecode(token.replace('Bearer ', ''));
     Cookies.set('token', token);
     Cookies.set('username', decodedToken.login);
   };
 
   const getUsername = () => {
     return Cookies.get('username');
-  }
+  };
 
   const getCart = () => {
     return JSON.parse(Cookies.get('cart') || '[]');
-  }
+  };
 
   const getPurchasedTrips = () => {
     return JSON.parse(Cookies.get('purchasedTrips') || '[]');
-  }
-
+  };
 
   // Logout function to clear the username state and the cart
   const logout = () => {
@@ -39,15 +37,17 @@ const UserProvider = ({ children }) => {
     const timer = setInterval(() => {
       // Decrement timeLeft for each trip in the cart
       const cartItems = getCart();
-      const cart =  cartItems.filter(trip => {
-        if (trip.timeLeft === 0 || trip.timeLeft < 0) {
-          return false;
-        } else {
-          return true;
-        }
-      }).map(trip => {
-        return { ...trip, timeLeft: trip.timeLeft - 1 };
-      });
+      const cart = cartItems
+        .filter((trip) => {
+          if (trip.timeLeft === 0 || trip.timeLeft < 0) {
+            return false;
+          } else {
+            return true;
+          }
+        })
+        .map((trip) => {
+          return { ...trip, timeLeft: trip.timeLeft - 1 };
+        });
       Cookies.set('cart', JSON.stringify(cart));
     }, 1000); // 1 minute interval
 
@@ -70,7 +70,7 @@ const UserProvider = ({ children }) => {
     const newTrip = {
       trip: trip,
       timeLeft: 60
-    }
+    };
     trips.push(newTrip);
     Cookies.set('cart', JSON.stringify(trips));
   };
@@ -78,20 +78,30 @@ const UserProvider = ({ children }) => {
   const removeFromCart = (tripId) => {
     const trips = getCart();
     console.log(trips);
-    const newTrips = trips.filter((trip) => trip.trip !== tripId)
+    const newTrips = trips.filter((trip) => trip.trip !== tripId);
     console.log(newTrips);
     Cookies.set('cart', JSON.stringify(newTrips));
   };
 
   const itemInCart = (id) => {
     const trips = getCart();
-    return trips.some(obj => obj.trip === id);
+    return trips.some((obj) => obj.trip === id);
   };
 
-
-
   return (
-    <UserContext.Provider value={{ getUsername, getCart, getPurchasedTrips, login, logout, addToCart, removeFromCart, itemInCart, addToPurchasedTrips }}>
+    <UserContext.Provider
+      value={{
+        getUsername,
+        getCart,
+        getPurchasedTrips,
+        login,
+        logout,
+        addToCart,
+        removeFromCart,
+        itemInCart,
+        addToPurchasedTrips
+      }}
+    >
       {children}
     </UserContext.Provider>
   );

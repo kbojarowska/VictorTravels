@@ -4,13 +4,12 @@ import useAuth from './useAuth';
 import Cookies from 'js-cookie';
 
 function LoginRoute() {
-    const token = Cookies.get('token');
+  const token = Cookies.get('token');
 
-    if (token) {
-        return <Navigate to="/home" />;
-    }
-    return <Outlet/>;
-  
+  if (token) {
+    return <Navigate to="/home" />;
+  }
+  return <Outlet />;
 }
 
 export default LoginRoute;

@@ -17,5 +17,12 @@ module.exports = {
     'react'
   ],
   rules: {
+    'react/react-in-jsx-scope': 'off',
+    'no-unused-vars': 'off',
+    'react/prop-types': 'off',
+    "semi": ["error", "always", { "omitLastInOneLineBlock": false}],
+    "semi-style": ["error", "last"],
+    "no-extra-semi": ["error"],
+    "semi-spacing": ["error", { "before": false, "after": true }]
   }
 }

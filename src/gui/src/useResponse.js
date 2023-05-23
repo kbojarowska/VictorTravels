@@ -1,9 +1,6 @@
-import { useState, useEffect } from 'react';
-import axios from 'axios';
-
 const parseResponse = (type, response) => {
-  var message = '';
-  var isGood = false;
+  let message = '';
+  let isGood = false;
   if (response.status === 200) {
     if (type === 'login_POST') message = 'User successfully logged in';
     if (type === 'register_POST') message = 'User successfully registered';
@@ -16,31 +13,46 @@ const parseResponse = (type, response) => {
   } else if (response.status === 201) {
     if (type === 'register_POST') message = 'User successfully registered';
     if (type === 'purchases_POST') message = 'Purchase successfully created';
-    if (type === 'reservations_POST') message = 'Reservation successfully created';
+    if (type === 'reservations_POST')
+      message = 'Reservation successfully created';
     isGood = true;
   } else if (response.status === 400) {
-    if (type === 'payments_POST')
+    if (type === 'payments_POST') {
       message = 'Reservation with provided ID has already been paid for';
-    if (type === 'reservations_POST')
+    }
+    if (type === 'reservations_POST') {
       message = 'Trip with provided ID does not have enough places left';
-    if (type === 'trips_GET') message = 'Invalid tour researcher query parameters';
+    }
+    if (type === 'trips_GET')
+      message = 'Invalid tour researcher query parameters';
   } else if (response.status === 401) {
-    if (type === 'login_POST') message = 'Users provided credentials does not match';
+    if (type === 'login_POST')
+      message = 'Users provided credentials does not match';
   } else if (response.status === 402) {
-    if (type === 'payments_POST') message = 'Payment for reservation have failed';
+    if (type === 'payments_POST')
+      message = 'Payment for reservation have failed';
   } else if (response.status === 403) {
-    if (type === 'payments_POST') message = 'User does not have permission to use this service';
-    if (type === 'purchases_POST') message = 'User does not have permission to use this service';
-    if (type === 'reservations_POST') message = 'User does not have permission to use this service';
-    if (type === 'trip_GET') message = 'User does not have permission to use this service';
-    if (type === 'trips_GET') message = 'User does not have permission to use this service';
+    if (type === 'payments_POST')
+      message = 'User does not have permission to use this service';
+    if (type === 'purchases_POST')
+      message = 'User does not have permission to use this service';
+    if (type === 'reservations_POST')
+      message = 'User does not have permission to use this service';
+    if (type === 'trip_GET')
+      message = 'User does not have permission to use this service';
+    if (type === 'trips_GET')
+      message = 'User does not have permission to use this service';
   } else if (response.status === 404) {
-    if (type === 'payments_POST') message = 'Reservation with provided ID does not exist';
-    if (type === 'purchases_POST') message = 'Reservation with provided ID does not exist';
-    if (type === 'reservations_POST') message = 'Trip with provided ID does not exist';
+    if (type === 'payments_POST')
+      message = 'Reservation with provided ID does not exist';
+    if (type === 'purchases_POST')
+      message = 'Reservation with provided ID does not exist';
+    if (type === 'reservations_POST')
+      message = 'Trip with provided ID does not exist';
     if (type === 'trip_GET') message = 'Trip with provided ID does not exist';
   } else if (response.status === 409) {
-    if (type === 'register_POST') message = 'User with provided login already exists';
+    if (type === 'register_POST')
+      message = 'User with provided login already exists';
   } else if (response.status === 410) {
     if (type === 'payments_POST') message = 'Reservation with ID has expired';
   } else if (response.status === 422) {

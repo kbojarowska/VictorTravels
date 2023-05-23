@@ -1,12 +1,10 @@
 import React from 'react';
 import Card from '../Card/Card';
 
-function TripList({ trips }) {
+function TripList({trips}) {
   return (
     <div>
-      {trips.map((trip) => (
-        <Card trip={trip} />
-      ))}
+      {trips.map (trip => <Card key={trip} trip={trip} />)}
     </div>
   );
 }

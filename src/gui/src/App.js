@@ -1,13 +1,13 @@
 import { Routes, Route } from 'react-router-dom';
-import PrivateRoute from './PrivateRoute';
-import Cart from './Cart';
-import Buy from './Buy';
-import LoginRoute from './LoginRoute';
+import PrivateRoute from './routes/PrivateRoute';
+import Buy from './pages/Buy';
+import LoginRoute from './routes/LoginRoute';
 import Navbar from './components/Navbar/Navbar';
 import LoginForm from './components/LoginForm/LoginForm';
 import RegisterForm from './components/RegisterForm/RegisterForm';
 import Search from './pages/Search';
 import TripDetails from './pages/TripDetails';
+import Cart from './pages/Cart';
 
 const App = () => {
   return (

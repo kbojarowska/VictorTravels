@@ -1,15 +1,14 @@
-import { useEffect, useState } from 'react';
-import jwtDecode from 'jwt-decode';
+import {useEffect, useState} from 'react';
 import Cookies from 'js-cookie';
 
 const useAuth = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState (false);
 
-  useEffect(() => {
-    const token = Cookies.get('token');
+  useEffect (() => {
+    const token = Cookies.get ('token');
 
     if (token) {
-      setIsLoggedIn(true);
+      setIsLoggedIn (true);
     }
   }, []);
 

@@ -1,12 +1,12 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
 
-const api = axios.create({
-  baseURL: 'https://example.com/api'
+const api = axios.create ({
+  baseURL: 'https://example.com/api',
 });
 
-api.interceptors.request.use((config) => {
-  const token = Cookies.get('token');
+api.interceptors.request.use (config => {
+  const token = Cookies.get ('token');
 
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
@@ -15,28 +15,28 @@ api.interceptors.request.use((config) => {
   return config;
 });
 
-api.interceptors.response.use(
-  (response) => {
+api.interceptors.response.use (
+  response => {
     return response;
   },
-  (error) => {
+  error => {
     const originalRequest = error.config;
-    const token = Cookies.get('token');
+    const token = Cookies.get ('token');
 
     if (error.response.status === 401 && !originalRequest._retry && token) {
       originalRequest._retry = true;
 
-      return api.post('/auth/refresh_token', { token }).then((response) => {
-        const newToken = response.headers.authorization.split(' ')[1];
-        Cookies.set('token', newToken, { expires: 7, sameSite: 'strict' });
+      return api.post ('/auth/refresh_token', {token}).then (response => {
+        const newToken = response.headers.authorization.split (' ')[1];
+        Cookies.set ('token', newToken, {expires: 7, sameSite: 'strict'});
 
         originalRequest.headers.Authorization = `Bearer ${newToken}`;
 
-        return api(originalRequest);
+        return api (originalRequest);
       });
     }
 
-    return Promise.reject(error);
+    return Promise.reject (error);
   }
 );
 

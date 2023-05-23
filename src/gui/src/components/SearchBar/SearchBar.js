@@ -1,59 +1,68 @@
-import { useEffect, useState } from 'react';
+import {useEffect, useState} from 'react';
 import DatePicker from 'react-tailwindcss-datepicker';
-import './SearchBar.css';
 import NumberInput from '../NumberInput/NumberInput';
 import Select from 'react-select';
 import axios from 'axios';
 
-function SearchBar({ setTrips }) {
-  const [date, setDate] = useState([null, null]);
-  const [departureLocations, setDepartureLocations] = useState([]);
-  const [arrivalLocations, setArrivalLocations] = useState([]);
-  const [selectedArrivalLocations, setSelectedArrivalLocations] = useState([]);
-  const [selectedDepartureLocations, setSelectedDepartureLocations] = useState([]);
-  const [adultNumber, setAdultNumber] = useState(1);
-  const [kidsTo3yo, setKidsTo3yo] = useState(0);
-  const [kidsTo10yo, setKidsTo10yo] = useState(0);
-  const [kidsTo18yo, setKidsTo18yo] = useState(0);
-  const [selectedTransport, setSelectedTransport] = useState([]);
+function SearchBar({setTrips}) {
+  const [date, setDate] = useState ([null, null]);
+  const [departureLocations, setDepartureLocations] = useState ([]);
+  const [arrivalLocations, setArrivalLocations] = useState ([]);
+  const [selectedArrivalLocations, setSelectedArrivalLocations] = useState ([]);
+  const [selectedDepartureLocations, setSelectedDepartureLocations] = useState (
+    []
+  );
+  const [adultNumber, setAdultNumber] = useState (1);
+  const [kidsTo3yo, setKidsTo3yo] = useState (0);
+  const [kidsTo10yo, setKidsTo10yo] = useState (0);
+  const [kidsTo18yo, setKidsTo18yo] = useState (0);
+  const [selectedTransport, setSelectedTransport] = useState ([]);
 
-  const handleDateChange = (selectedDate) => {
-    setDate(selectedDate);
+  const handleDateChange = selectedDate => {
+    setDate (selectedDate);
   };
 
   const getLocations = async () => {
-    const res = await axios.get('http://localhost:18000/api/v1/trips/configurations');
-    setArrivalLocations(
-      res.data.arrivalLocations.map(({ country, region }) => ({
-        value: country.toLowerCase(),
-        label: country
+    const res = await axios.get (
+      'http://localhost:18000/api/v1/trips/configurations'
+    );
+    setArrivalLocations (
+      res.data.arrivalLocations.map (({country, region}) => ({
+        value: country.toLowerCase (),
+        label: country,
       }))
     );
 
-    setDepartureLocations(
-      res.data.departureLocations.map((city) => ({
+    setDepartureLocations (
+      res.data.departureLocations.map (city => ({
         value: city,
-        label: city
+        label: city,
       }))
     );
   };
 
-  const setHandleDepartureLocations = (e) => {
-    setSelectedDepartureLocations(Array.isArray(e) ? e.map((location) => location.label) : []);
+  const setHandleDepartureLocations = e => {
+    setSelectedDepartureLocations (
+      Array.isArray (e) ? e.map (location => location.label) : []
+    );
   };
 
-  const setHandleArrivalLocations = (e) => {
-    setSelectedArrivalLocations(Array.isArray(e) ? e.map((location) => location.label) : []);
+  const setHandleArrivalLocations = e => {
+    setSelectedArrivalLocations (
+      Array.isArray (e) ? e.map (location => location.label) : []
+    );
   };
 
-  const setHandleTransport = (e) => {
-    setSelectedTransport(Array.isArray(e) ? e.map((transport) => transport.label) : []);
+  const setHandleTransport = e => {
+    setSelectedTransport (
+      Array.isArray (e) ? e.map (transport => transport.label) : []
+    );
   };
 
-  function filterByUniqueTripId(arr) {
+  function filterByUniqueTripId (arr) {
     const uniqueTripIds = {};
 
-    const filteredArray = arr.filter((item) => {
+    const filteredArray = arr.filter (item => {
       if (!uniqueTripIds[item.tripID]) {
         uniqueTripIds[item.tripID] = true;
         return true;
@@ -64,18 +73,18 @@ function SearchBar({ setTrips }) {
     return filteredArray;
   }
 
-  function convertArrayToString(array) {
-    if (array.length == 0) {
+  function convertArrayToString (array) {
+    if (array.length === 0) {
       return null;
     }
-    return array.join(', ');
+    return array.join (', ');
   }
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    console.log(convertArrayToString(selectedArrivalLocations));
+  const handleSubmit = async e => {
+    e.preventDefault ();
+    console.log (convertArrayToString (selectedArrivalLocations));
     await axios
-      .get(
+      .get (
         'http://localhost:18000/api/v1/trips',
         {
           params: {
@@ -85,33 +94,33 @@ function SearchBar({ setTrips }) {
             kids_to_18yo: kidsTo18yo,
             date_from: date.startDate,
             date_to: date.endDate,
-            arrival_region: convertArrayToString(selectedArrivalLocations),
-            departure_region: convertArrayToString(selectedDepartureLocations),
-            transport: convertArrayToString(selectedTransport)
-          }
+            arrival_region: convertArrayToString (selectedArrivalLocations),
+            departure_region: convertArrayToString (selectedDepartureLocations),
+            transport: convertArrayToString (selectedTransport),
+          },
         },
         {
           headers: {
-            'Content-Type': 'application/json'
-          }
+            'Content-Type': 'application/json',
+          },
         }
       )
-      .then((res) => {
-        setTrips(filterByUniqueTripId(res.data));
+      .then (res => {
+        setTrips (filterByUniqueTripId (res.data));
       })
-      .catch((err) => {
-        console.log(err);
+      .catch (err => {
+        console.log (err);
       });
   };
 
   const transportType = [
-    { value: 'own', label: 'own' },
-    { value: 'train', label: 'train' },
-    { value: 'plane', label: 'plane' }
+    {value: 'own', label: 'own'},
+    {value: 'train', label: 'train'},
+    {value: 'plane', label: 'plane'},
   ];
 
-  useEffect(() => {
-    getLocations();
+  useEffect (() => {
+    getLocations ();
   }, []);
 
   return (
@@ -121,7 +130,7 @@ function SearchBar({ setTrips }) {
       </p>
       <div className="w-90 border border-slate-700 rounded">
         <DatePicker
-          minDate={new Date()}
+          minDate={new Date ()}
           separator={'to'}
           value={date}
           onChange={handleDateChange}
@@ -140,7 +149,11 @@ function SearchBar({ setTrips }) {
           </label>
           <div className="flex flex-wrap items-center lg:justify-between justify-center">
             <div className="px-2">
-              <Select options={arrivalLocations} onChange={setHandleArrivalLocations} isMulti />
+              <Select
+                options={arrivalLocations}
+                onChange={setHandleArrivalLocations}
+                isMulti
+              />
             </div>
           </div>
         </div>
@@ -170,7 +183,7 @@ function SearchBar({ setTrips }) {
             <div className="px-2">
               <Select
                 options={transportType}
-                defaultValue={{ value: 'own', label: 'own' }}
+                defaultValue={{value: 'own', label: 'own'}}
                 onChange={setHandleTransport}
                 isMulti
               />

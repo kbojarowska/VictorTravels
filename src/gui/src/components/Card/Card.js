@@ -1,7 +1,7 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import {Link} from 'react-router-dom';
 
-function Card({ trip }) {
+function Card({trip}) {
   return (
     <div className="flex flex-col rounded-lg bg-white dark:bg-neutral-700 shadow-[0_2px_15px_-3px_rgba(0,0,0,0.07),0_10px_20px_-2px_rgba(0,0,0,0.04)] md:max-w-7xl md:flex-row mb-5">
       <img
@@ -13,14 +13,14 @@ function Card({ trip }) {
         <h5 className="mb-2 text-xl font-medium text-neutral-800 dark:text-neutral-50">
           {trip.localisation.country} - {trip.localisation.region}
         </h5>
-        <p className="mb-4 text-base text-neutral-600 dark:text-neutral-200">{trip.hotel.name}</p>
         <p className="mb-4 text-base text-neutral-600 dark:text-neutral-200">
-          {trip.hotel.description.map((info) => (
-            <li>{info}</li>
-          ))}
+          {trip.hotel.name}
+        </p>
+        <p className="mb-4 text-base text-neutral-600 dark:text-neutral-200">
+          {trip.hotel.description.map (info => <li key={info}>{info}</li>)}
         </p>
         <p className="text-xs text-neutral-500 dark:text-neutral-300">
-          Average price per person: {trip.price}
+          Average price per perSson: {trip.price}
         </p>
         <Link
           to={'trip/' + trip.id}
